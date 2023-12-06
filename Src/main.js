@@ -11,6 +11,10 @@ DEFAULT_POLYGONS = [
 ]
 
 let polygons = []
+let polygon0 = undefined
+let polygon1 = undefined
+let polygon0_selecting = 0
+let polygon1_selecting = 0
 
 function Draw() {
     //seperation
@@ -28,11 +32,14 @@ function DrawMinkowski(start_x, start_y, end_x, end_y) {
 }
 
 function DrawOriginal(start_x, start_y, end_x, end_y) {
-
+    SetColor("palegreen")
+    polygon0.Draw()
 }
 
 async function main() {
-    polygons = await LoadFile(DEFAULT_POLYGONS)
+    polygons = await LoadPolygons(DEFAULT_POLYGONS)
+    polygon0 = polygons[polygon0_selecting]
+    polygon1 = polygons[polygon1_selecting]
 
     while (true) {
         Draw()
