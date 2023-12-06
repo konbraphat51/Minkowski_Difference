@@ -49,6 +49,29 @@ function Control() {
     polygon1.center = GetMousePosition()
 }
 
+function ChangePolygon0() {
+    polygon0_selecting = (polygon0_selecting + 1) % polygons.length
+
+    let center = polygon0.center
+    let scale = polygon0.scale
+    polygon0 = polygons[polygon0_selecting].Clone()
+    polygon0.center = center
+    polygon0.scale = scale
+}
+
+function ChangePolygon1() {
+    polygon1_selecting = (polygon1_selecting + 1) % polygons.length
+
+    let center = polygon1.center
+    let scale = polygon1.scale
+    polygon1 = polygons[polygon1_selecting].Clone()
+    polygon1.center = center
+    polygon1.scale = scale
+}
+
+PutButton("change_polygon0", "Change Green Polygon", ChangePolygon0)
+PutButton("change_polygon1", "Change Blue Polygon", ChangePolygon1)
+
 async function main() {
     polygons = await LoadPolygons(DEFAULT_POLYGONS)
     polygon0 = polygons[polygon0_selecting].Clone()
