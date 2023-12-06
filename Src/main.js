@@ -34,12 +34,19 @@ function DrawMinkowski(start_x, start_y, end_x, end_y) {
 function DrawOriginal(start_x, start_y, end_x, end_y) {
     SetColor("palegreen")
     polygon0.Draw()
+
+    SetColor("lightblue")
+    polygon1.Draw()
 }
 
 async function main() {
     polygons = await LoadPolygons(DEFAULT_POLYGONS)
-    polygon0 = polygons[polygon0_selecting]
-    polygon1 = polygons[polygon1_selecting]
+    polygon0 = polygons[polygon0_selecting].Clone()
+    polygon0.center = [GetCanvasSize()[0] * 0.75, GetCanvasSize()[1] * 0.5]
+    polygon0.scale = 0.25
+    polygon1 = polygons[polygon1_selecting].Clone()
+    polygon1.center = [GetCanvasSize()[0] * 0.75, GetCanvasSize()[1] * 0.75]
+    polygon1.scale = 0.25
 
     while (true) {
         Draw()
