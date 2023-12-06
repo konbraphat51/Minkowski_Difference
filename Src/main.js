@@ -1,6 +1,6 @@
 StopAllTouchDefaults()
 
-DEFAULT_POLYGONS = [
+const DEFAULT_POLYGONS = [
     "polygon_0.txt",
     "polygon_1.txt",
     "polygon_2.txt",
@@ -18,6 +18,8 @@ let polygon1 = undefined
 let polygon0_selecting = 0
 let polygon1_selecting = 0
 
+const GRID_INTERVAL = 10
+
 function Draw() {
     //clear
     SetColor("white")
@@ -29,12 +31,22 @@ function Draw() {
     DrawLine(x, 0, x, GetCanvasSize()[1])
 
     //each division
-    DrawMinkowski(0, 0, GetCanvasSize()[0] / 2, GetCanvasSize()[1] / 2)
-    DrawOriginal(GetCanvasSize()[0] / 2, GetCanvasSize()[1] / 2, GetCanvasSize()[0], GetCanvasSize()[1])
+    DrawMinkowski(0, 0, GetCanvasSize()[0] / 2, GetCanvasSize()[1])
+    DrawOriginal(GetCanvasSize()[0] / 2, GetCanvasSize()[1], GetCanvasSize()[0], GetCanvasSize()[1])
 }
 
 function DrawMinkowski(start_x, start_y, end_x, end_y) {
+    let positions_minkowski = ComputeMinowski()
 
+    //axis
+    SetColor("red")
+    DrawLine(start_x, (start_y + end_y) / 2, end_x, (start_y + end_y) / 2, 3)
+    DrawLine((start_x + end_x) / 2, start_y, (start_x + end_x) / 2, end_y, 3)
+
+    SetColor("palepink")
+    positions_minkowski.forEach((position) => {
+        DrawCircle(position[0] + (start_x + end_x) / 2, position[1] + (start_y + end_y) / 2, 3)
+    })
 }
 
 function DrawOriginal(start_x, start_y, end_x, end_y) {
@@ -67,6 +79,35 @@ function ChangePolygon1() {
     polygon1 = polygons[polygon1_selecting].Clone()
     polygon1.center = center
     polygon1.scale = scale
+}
+
+function ComputeMinowski() {
+    let positions0 = ComputePositionsInside(polygon0)
+    let positions1 = ComputePositionsInside(polygon1)
+
+    let positions_minkowski = []
+    positions0.forEach((position0) => {
+        positions1.forEach((position1) => {
+            positions_minkowski.push([position0[0] - position1[0], position0[1] - position1[1]])
+        })
+    })
+
+    return positions_minkowski
+}
+
+function ComputePositionsInside(polygon) {
+    let positions = []
+
+    for (let x = 0; x < GetCanvasSize()[0]; x += GRID_INTERVAL) {
+        for (let y = 0; y < GetCanvasSize()[1]; y += GRID_INTERVAL) {
+            let point = [x, y]
+            if (polygon.IsPointInside(point)) {
+                positions.push(point)
+            }
+        }
+    }
+
+    return positions
 }
 
 PutButton("change_polygon0", "Change Green Polygon", ChangePolygon0)
