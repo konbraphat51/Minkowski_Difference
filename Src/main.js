@@ -1,27 +1,25 @@
+function Draw() {
+    //seperation
+    SetColor("black")
+    let x = GetCanvasSize()[0] / 2
+    DrawLine(x, 0, x, GetCanvasSize()[1])
+
+    DrawMinkowski(0, 0, GetCanvasSize()[0] / 2, GetCanvasSize()[1] / 2)
+    DrawOriginal(GetCanvasSize()[0] / 2, GetCanvasSize()[1] / 2, GetCanvasSize()[0], GetCanvasSize()[1])
+}
+
+function DrawMinkowski(start_x, start_y, end_x, end_y) {
+
+}
+
+function DrawOriginal(start_x, start_y, end_x, end_y) {
+
+}
+
 async function main() {
-    await Sleep(1000)
+    while (true) {
+        Draw()
 
-    DrawText("Hello World!", 100, 100)
-
-    await Sleep(1000)
-    
-    SetColor("red")
-    SetFont("50px serif")
-    DrawText("Let's Coding!", 100, 200)
-
-    await Sleep(1000)
-
-    
-    const chick = (await LoadImages(["/Assets/twimoji_chick.png"]))[0]
-    
-    while (true){
-        //clear
-        SetColor("white")
-        DrawRect(0, 0, GetCanvasSize()[0], GetCanvasSize()[1])
-
-        DrawImage(chick, GetMouseX(), GetMouseY(), 100, 100)
-    
-        //cool time
-        await Sleep(1000/16)
+        await Sleep(16)
     }
 }
