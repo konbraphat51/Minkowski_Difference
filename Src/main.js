@@ -1,3 +1,5 @@
+StopAllTouchDefaults()
+
 DEFAULT_POLYGONS = [
     "polygon_0.txt",
     "polygon_1.txt",
@@ -17,6 +19,10 @@ let polygon0_selecting = 0
 let polygon1_selecting = 0
 
 function Draw() {
+    //clear
+    SetColor("white")
+    DrawRect(0, 0, GetCanvasSize()[0], GetCanvasSize()[1])
+
     //seperation
     SetColor("black")
     let x = GetCanvasSize()[0] / 2
@@ -39,6 +45,10 @@ function DrawOriginal(start_x, start_y, end_x, end_y) {
     polygon1.Draw()
 }
 
+function Control() {
+    polygon1.center = GetMousePosition()
+}
+
 async function main() {
     polygons = await LoadPolygons(DEFAULT_POLYGONS)
     polygon0 = polygons[polygon0_selecting].Clone()
@@ -50,6 +60,7 @@ async function main() {
 
     while (true) {
         Draw()
+        Control()
 
         await Sleep(16)
     }
