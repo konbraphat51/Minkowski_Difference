@@ -10,6 +10,8 @@ DEFAULT_POLYGONS = [
     "polygon_8.txt",
 ]
 
+let polygons = []
+
 function Draw() {
     //seperation
     SetColor("black")
@@ -29,8 +31,7 @@ function DrawOriginal(start_x, start_y, end_x, end_y) {
 }
 
 async function main() {
-    let polygons = await LoadFile(DEFAULT_POLYGONS)
-    Log(polygon)
+    polygons = await LoadFile(DEFAULT_POLYGONS)
 
     while (true) {
         Draw()
